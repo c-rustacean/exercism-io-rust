@@ -4,6 +4,7 @@ static YELLQUESTION: &str = "Calm down, I know what I'm doing!";
 static SILENCE: &str = "Fine. Be that way!";
 static ANYTHINGELSE: &str = "Whatever.";
 
+#[cfg(too_complex)]
 enum BobsRepliesTo {
     Question,
     Yell,
@@ -12,6 +13,7 @@ enum BobsRepliesTo {
     AnythingElse,
 }
 
+#[cfg(too_complex)]
 fn understand_utterance(utterance: &str) -> BobsRepliesTo {
     let simple_utter = utterance
         .chars()
@@ -34,6 +36,7 @@ fn understand_utterance(utterance: &str) -> BobsRepliesTo {
     }
 }
 
+#[cfg(too_complex)]
 pub fn reply(message: &str) -> &'static str {
     // unimplemented!("have Bob reply to the incoming message: {}", message)
 
@@ -43,5 +46,27 @@ pub fn reply(message: &str) -> &'static str {
         BobsRepliesTo::YellQuestion => YELLQUESTION,
         BobsRepliesTo::Silence => SILENCE,
         BobsRepliesTo::AnythingElse => ANYTHINGELSE,
+    }
+}
+
+pub fn reply(message: &str) -> &'static str {
+    // unimplemented!("have Bob reply to the incoming message: {}", message)
+
+    let they_said = message
+        .chars()
+        .filter(|c| !c.is_whitespace())
+        .collect::<String>();
+
+    let question = they_said.ends_with("?");
+    let shouting =
+        (they_said.to_uppercase() == they_said) && (they_said.to_lowercase() != they_said);
+    let silence = they_said.is_empty();
+
+    match (question, shouting, silence) {
+        (true, true, _) => YELLQUESTION,
+        (true, _, _) => QUESTION,
+        (_, _, true) => SILENCE,
+        (_, true, _) => YELL,
+        _ => ANYTHINGELSE,
     }
 }
