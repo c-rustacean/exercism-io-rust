@@ -9,7 +9,7 @@ fn atbash_letter(letter: char) -> char {
         Some(pos) => alphabet
             .chars()
             .nth(25 - pos)
-            .expect(&format!("Unexpected index {}", pos)),
+            .unwrap_or_else(|| panic!("Unexpected index {}", pos)),
         _ => letter,
     }
 }
@@ -18,7 +18,7 @@ fn toggle(text: &str) -> String {
     text.to_lowercase()
         .chars()
         .filter(|c| c.to_ascii_lowercase().is_ascii_alphanumeric())
-        .map(|c| atbash_letter(c))
+        .map(atbash_letter)
         .collect()
 }
 
@@ -37,7 +37,7 @@ fn char_as_string(t: (usize, char)) -> String {
 pub fn encode(plain: &str) -> String {
     toggle(plain)
         .char_indices()
-        .map(|x| char_as_string(x))
+        .map(char_as_string)
         .collect::<String>()
 }
 
