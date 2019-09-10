@@ -19,9 +19,10 @@ fn letter_inventory(word: &str) -> HashMap<char, i32> {
 
 pub fn anagrams_for<'a>(word: &str, possible_anagrams: &[&'a str]) -> HashSet<&'a str> {
 
-    let scrabble = letter_inventory(word);
+    let word = word.to_lowercase();
+    let scrabble = letter_inventory(&word);
 
     // let anagrams = HashSet::new();
 
-    possible_anagrams.into_iter().filter(|w| (*w != &word) && (letter_inventory(*w) == scrabble)).cloned().collect::<HashSet<&'a str>>()
+    possible_anagrams.into_iter().filter(|w| (&w.to_lowercase() != &word) && (letter_inventory(*w) == scrabble)).cloned().collect::<HashSet<&'a str>>()
 }
