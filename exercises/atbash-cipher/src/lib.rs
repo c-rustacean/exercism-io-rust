@@ -14,12 +14,11 @@ fn atbash_letter(letter: char) -> char {
     }
 }
 
-fn toggle(text: &str) -> String {
-    text.to_lowercase()
-        .chars()
-        .filter(|c| c.to_ascii_lowercase().is_ascii_alphanumeric())
+fn toggle(text: &str) -> impl Iterator<Item = char> + '_ {
+    text.chars()
+        .map(|c| c.to_ascii_lowercase())
+        .filter(|c| c.is_ascii_alphanumeric())
         .map(atbash_letter)
-        .collect()
 }
 
 fn char_as_string(t: (usize, char)) -> String {
@@ -36,12 +35,12 @@ fn char_as_string(t: (usize, char)) -> String {
 /// "Encipher" with the Atbash cipher.
 pub fn encode(plain: &str) -> String {
     toggle(plain)
-        .char_indices()
+        .enumerate()
         .map(char_as_string)
         .collect::<String>()
 }
 
 /// "Decipher" with the Atbash cipher.
 pub fn decode(cipher: &str) -> String {
-    toggle(cipher).split_whitespace().collect::<String>()
+    toggle(cipher).collect::<String>()
 }
