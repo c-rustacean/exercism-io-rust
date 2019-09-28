@@ -22,7 +22,7 @@ fn toggle(text: &str) -> impl Iterator<Item = char> + '_ {
 }
 
 fn char_as_string(t: (usize, char)) -> String {
-    let mut r = String::new();
+    let mut r = String::with_capacity(2); // be ready for a char and a space
 
     if (t.0 > 0) && (t.0 % 5 == 0) {
         r.push(' ');
