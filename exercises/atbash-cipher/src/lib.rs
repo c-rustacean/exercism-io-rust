@@ -1,12 +1,17 @@
-fn alphabet() -> String {
-    (b'a'..=b'z').map(char::from).collect::<String>()
-}
+// fn alphabet() -> String {
+//     (b'a'..=b'z').map(char::from).collect::<String>()
+// }
+
+const ALPHABET: &str = "abcdefghijklmnopqrstuvwxyz";
 
 fn atbash_letter(letter: char) -> char {
-    let alphabet = alphabet();
+    // let alphabet = alphabet();
 
-    match alphabet.chars().position(|x| x == letter) {
-        Some(pos) => alphabet
+    match ALPHABET.chars().position(|x| x == letter) {
+        Some(pos) => ALPHABET
+
+    // match alphabet.chars().position(|x| x == letter) {
+    //     Some(pos) => alphabet
             .chars()
             .nth(25 - pos)
             .unwrap_or_else(|| panic!("Unexpected index {}", pos)),
